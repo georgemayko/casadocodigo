@@ -3,15 +3,11 @@ package br.com.gm.deveficiente.casadocodigo.exception;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
-
 public class ValidationErrorOutputDTO {
 
 	private List<String> globalErrors ;
 	private List<FieldErrorOutputDTO> fieldErrors;
 
-	
 	public ValidationErrorOutputDTO() {
 		this.globalErrors = new ArrayList<>();
 		this.fieldErrors = new ArrayList<>();

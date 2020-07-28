@@ -3,6 +3,7 @@ package br.com.gm.deveficiente.casadocodigo.novoautor;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+//1
 public class NovoAutorRequest {
 
 	@NotBlank
@@ -19,13 +20,14 @@ public class NovoAutorRequest {
 		this.email = email;
 		this.descricao = descricao;
 	}
-
-	public Autor toModel() {
-		return new Autor(this.nome, this.email, this.descricao);
-	}
-
+	
 	public String getEmail() {
 		return this.email;
 	}
 	
+	//1
+	public Autor toModel() {
+		return new Autor(this.nome, this.email, this.descricao);
+	}
+
 }

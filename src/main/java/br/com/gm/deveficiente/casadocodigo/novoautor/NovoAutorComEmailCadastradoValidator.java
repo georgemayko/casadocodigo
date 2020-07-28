@@ -8,10 +8,12 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 @Component
+//5
 public class NovoAutorComEmailCadastradoValidator implements Validator{
 
 	@Autowired
-	AutorRepository repository;
+	//1
+	private AutorRepository repository;
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -19,6 +21,7 @@ public class NovoAutorComEmailCadastradoValidator implements Validator{
 	}
 
 	@Override
+	//4
 	public void validate(Object target, Errors errors) {
 		NovoAutorRequest request = (NovoAutorRequest) target;
 		if(errors.hasErrors())
