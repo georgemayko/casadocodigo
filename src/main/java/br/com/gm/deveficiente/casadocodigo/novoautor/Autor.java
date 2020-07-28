@@ -19,6 +19,9 @@ public class Autor {
 	private @NotBlank @Email String email;
 	private @NotBlank String descricao;
 	private LocalDateTime instanteCriacao = LocalDateTime.now();
+	
+	@Deprecated
+	public Autor() {}
 
 	public Autor(@NotBlank String nome, @NotBlank @Email String email, @NotBlank String descricao) {
 		this.nome = nome;
