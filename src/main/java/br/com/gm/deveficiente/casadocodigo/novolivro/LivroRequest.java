@@ -1,7 +1,7 @@
 package br.com.gm.deveficiente.casadocodigo.novolivro;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.EntityManager;
 import javax.validation.constraints.Future;
@@ -12,8 +12,13 @@ import javax.validation.constraints.Size;
 
 import org.springframework.util.Assert;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 import br.com.gm.deveficiente.casadocodigo.novacategoria.Categoria;
 import br.com.gm.deveficiente.casadocodigo.novoautor.Autor;
@@ -39,8 +44,9 @@ public class LivroRequest {
 	@UniqueValue(domainClass = Livro.class, fieldName = "isbn")
 	private String isbn;
 	@Future
+	@NotNull
 	@JsonFormat(pattern = "dd/MM/yyyy", shape = Shape.STRING)
-	private Date dataLancamento;
+	private LocalDate dataPublicacao;
 	@NotNull
 	@ExistId(domainClass = Autor.class)
 	private Long idAutor;
@@ -48,9 +54,10 @@ public class LivroRequest {
 	@ExistId(domainClass = Categoria.class)
 	private Long idCategoria;
 	
+	@JsonCreator//(mode = Mode.PROPERTIES)
 	public LivroRequest(@NotBlank String titulo, @NotBlank @Size(max = 250) String resumo, String sumario,
 			@NotNull @Min(20) BigDecimal preco, @NotNull @Min(100) Integer paginas, @NotBlank String isbn,
-			@Future Date dataLancamento, @NotNull Long idAutor, @NotNull Long idCategoria) {
+			@NotNull @Future LocalDate dataPublicacao, @NotNull Long idAutor, @NotNull Long idCategoria) {
 		super();
 		this.titulo = titulo;
 		this.resumo = resumo;
@@ -58,10 +65,14 @@ public class LivroRequest {
 		this.preco = preco;
 		this.paginas = paginas;
 		this.isbn = isbn;
-		this.dataLancamento = dataLancamento;
+		this.dataPublicacao = dataPublicacao;
 		this.idAutor = idAutor;
 		this.idCategoria = idCategoria;
 	}
+	
+//	public void setDataPublicacao(LocalDate dataPublicacao) {
+//		this.dataPublicacao = dataPublicacao;
+//	}
 	
 	public Long getIdAutor() {
 		return idAutor;
@@ -79,7 +90,7 @@ public class LivroRequest {
 		Assert.state(categoria != null, "Categoria não encontrada para o Id: " + this.idCategoria);
 		
 		return new Livro(titulo, resumo, sumario, preco,
-				paginas, isbn, dataLancamento, 
+				paginas, isbn, dataPublicacao, 
 				autor, categoria);
 	}
 

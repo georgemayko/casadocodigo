@@ -1,6 +1,7 @@
 package br.com.gm.deveficiente.casadocodigo.novolivro;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -9,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -31,7 +33,7 @@ public class Livro {
 	private @NotNull @Min(20) BigDecimal preco;
 	private @NotNull @Min(100) Integer paginas;
 	private @NotBlank String isbn;
-	private @Future Date dataLancamento;
+	private @Future @NotNull LocalDate dataPublicacao;
 	@ManyToOne
 	private Autor autor;
 	@ManyToOne
@@ -42,14 +44,14 @@ public class Livro {
 
 	public Livro(@NotBlank String titulo, @NotBlank @Size(max = 500) String resumo, String sumario,
 			@NotNull @Min(20) BigDecimal preco, @NotNull @Min(100) Integer paginas, @NotBlank String isbn,
-			@Future Date dataLancamento, Autor autor, Categoria categoria) {
+			@Future @NotNull LocalDate dataPublicacao, @Valid Autor autor, @Valid Categoria categoria) {
 				this.titulo = titulo;
 				this.resumo = resumo;
 				this.sumario = sumario;
 				this.preco = preco;
 				this.paginas = paginas;
 				this.isbn = isbn;
-				this.dataLancamento = dataLancamento;
+				this.dataPublicacao = dataPublicacao;
 				this.autor = autor;
 				this.categoria = categoria;
 	}
@@ -57,7 +59,7 @@ public class Livro {
 	@Override
 	public String toString() {
 		return "Livro [id=" + id + ", titulo=" + titulo + ", resumo=" + resumo + ", sumario=" + sumario + ", preco="
-				+ preco + ", paginas=" + paginas + ", isbn=" + isbn + ", dataLancamento=" + dataLancamento + ", autor="
+				+ preco + ", paginas=" + paginas + ", isbn=" + isbn + ", dataLancamento=" + dataPublicacao + ", autor="
 				+ autor + ", categoria=" + categoria + "]";
 	}
 	
