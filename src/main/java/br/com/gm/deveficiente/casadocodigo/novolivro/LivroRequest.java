@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 import br.com.gm.deveficiente.casadocodigo.novacategoria.Categoria;
 import br.com.gm.deveficiente.casadocodigo.novoautor.Autor;
+import br.com.gm.deveficiente.casadocodigo.validator.ExistId;
 import br.com.gm.deveficiente.casadocodigo.validator.UniqueValue;
 
 public class LivroRequest {
@@ -41,8 +42,10 @@ public class LivroRequest {
 	@JsonFormat(pattern = "dd/MM/yyyy", shape = Shape.STRING)
 	private Date dataLancamento;
 	@NotNull
+	@ExistId(domainClass = Autor.class)
 	private Long idAutor;
 	@NotNull
+	@ExistId(domainClass = Categoria.class)
 	private Long idCategoria;
 	
 	public LivroRequest(@NotBlank String titulo, @NotBlank @Size(max = 250) String resumo, String sumario,
@@ -72,8 +75,8 @@ public class LivroRequest {
 		@NotNull Autor autor = entityManager.find(Autor.class, this.idAutor);
 		@NotNull Categoria categoria = entityManager.find(Categoria.class,this.idCategoria);
 		
-		Assert.state(autor == null, "Autor não encontrado para o Id: " + this.idAutor);
-		Assert.state(categoria == null, "Categoria não encontrada para o Id: " + this.idCategoria);
+		Assert.state(autor != null, "Autor não encontrado para o Id: " + this.idAutor);
+		Assert.state(categoria != null, "Categoria não encontrada para o Id: " + this.idCategoria);
 		
 		return new Livro(titulo, resumo, sumario, preco,
 				paginas, isbn, dataLancamento, 

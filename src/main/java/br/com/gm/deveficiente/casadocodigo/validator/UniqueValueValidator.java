@@ -28,9 +28,6 @@ public class UniqueValueValidator implements ConstraintValidator<UniqueValue, Ob
 		String format = String.format("FROM %s WHERE %s = :param", domainClass.getName(), fieldName);
 		Query query = manager.createQuery(format.toString()).setParameter("param", value);
 		List<?> resultList = query.getResultList();
-		System.out.println(resultList.size());
-		System.out.println(value);
-		System.out.println(resultList.size() > 1);
 		Assert.state(resultList.size() <= 1 , "Mais de um resultado encontrado para a consulta");
 		return resultList.isEmpty();
 	}
