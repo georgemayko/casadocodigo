@@ -16,21 +16,16 @@ import br.com.gm.deveficiente.casadocodigo.novacategoria.CategoriaRepository;
 import br.com.gm.deveficiente.casadocodigo.novoautor.AutorRepository;
 
 @RestController 
-//6
+//4
 public class LivroController {
 
 	@PersistenceContext
-	private EntityManager manager;
+	private EntityManager entityManager;
 	
 	@Autowired
 	private AutorValidator autorValidator;
 	@Autowired
 	private CategoriaValidator categoriaValidator;
-	
-	@Autowired
-	private AutorRepository autorRepository;
-	@Autowired
-	private CategoriaRepository categoriaRepository;
 	
 	@InitBinder
 	protected void InitBinder( WebDataBinder binder) {
@@ -40,10 +35,10 @@ public class LivroController {
 	
 	@Transactional
 	@PostMapping(value = "livros")
-	//4
+	//2
 	public String cria(@RequestBody @Valid LivroRequest request) {
-		Livro novoLivro = request.toModel(autorRepository, categoriaRepository);
-		manager.persist(novoLivro);
+		Livro novoLivro = request.toModel(entityManager);
+		entityManager.persist(novoLivro);
 		return novoLivro.toString();
 	}
 

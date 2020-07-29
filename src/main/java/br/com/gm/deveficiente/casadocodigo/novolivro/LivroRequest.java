@@ -2,8 +2,8 @@ package br.com.gm.deveficiente.casadocodigo.novolivro;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Optional;
 
+import javax.persistence.EntityManager;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -16,9 +16,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 import br.com.gm.deveficiente.casadocodigo.novacategoria.Categoria;
-import br.com.gm.deveficiente.casadocodigo.novacategoria.CategoriaRepository;
 import br.com.gm.deveficiente.casadocodigo.novoautor.Autor;
-import br.com.gm.deveficiente.casadocodigo.novoautor.AutorRepository;
 import br.com.gm.deveficiente.casadocodigo.validator.UniqueValue;
 
 public class LivroRequest {
@@ -61,24 +59,26 @@ public class LivroRequest {
 		this.idAutor = idAutor;
 		this.idCategoria = idCategoria;
 	}
-
-	public Livro toModel(AutorRepository autorRepository, CategoriaRepository categoriaRepository) {
-		Optional<Autor> possivelAutor = autorRepository.findById(this.idAutor);
-		Optional<Categoria> possivelCategoria = categoriaRepository.findById(this.idCategoria);
-		
-		Assert.state(possivelAutor.isPresent(), "Autor não encontrado para o Id: " + this.idAutor);
-		Assert.state(possivelCategoria.isPresent(), "Categoria não encontrada para o Id: " + this.idCategoria);
-		
-		return new Livro(titulo, resumo, sumario, preco,
-				paginas, isbn, dataLancamento, 
-				possivelAutor.get(), possivelCategoria.get());
-	}
-
+	
 	public Long getIdAutor() {
 		return idAutor;
 	}
+	
 	public Long getIdCategoria() {
 		return idCategoria;
 	}
+	
+	public Livro toModel(EntityManager entityManager) {
+		@NotNull Autor autor = entityManager.find(Autor.class, this.idAutor);
+		@NotNull Categoria categoria = entityManager.find(Categoria.class,this.idCategoria);
+		
+		Assert.state(autor == null, "Autor não encontrado para o Id: " + this.idAutor);
+		Assert.state(categoria == null, "Categoria não encontrada para o Id: " + this.idCategoria);
+		
+		return new Livro(titulo, resumo, sumario, preco,
+				paginas, isbn, dataLancamento, 
+				autor, categoria);
+	}
+
 	
 }
