@@ -26,7 +26,7 @@ public class LivroController {
 	@Transactional
 	@PostMapping(value = "livros")
 	//2
-	public String cria(@RequestBody @Valid LivroRequest request) {
+	public String cria(@RequestBody @Valid NovoLivroRequest request) {
 		Livro novoLivro = request.toModel(entityManager);
 		entityManager.persist(novoLivro);
 		return novoLivro.toString();
@@ -35,22 +35,18 @@ public class LivroController {
 	
 	@GetMapping(value = "livros")
 	//1
-	public List<LivroDTO> lista() {
-		List<Livro> lista = entityManager.createQuery("FROM Livro", Livro.class).getResultList();
-		List<LivroDTO> listaDto = new ArrayList<>();
-		lista.forEach(umLivro -> listaDto.add(new LivroDTO(umLivro.getId(), umLivro.getTitulo())));
-		return listaDto;
+	public List<LivroListagemResponse> lista() {
+		List<Livro> listaDeLivro = entityManager.createQuery("FROM Livro", Livro.class).getResultList();
+		List<LivroListagemResponse> listaDeLivroListagemResponse = new ArrayList<>();
+		listaDeLivro.forEach(umLivro -> listaDeLivroListagemResponse.add(new LivroListagemResponse(umLivro)));
+		return listaDeLivroListagemResponse;
 	}
 	
 	@GetMapping(value = "livros/{id}")
 	//1
-	public ResponseEntity<LivroDetalheDTO> getMethodName(@PathVariable("id") Long livroId) {
-		Optional<Livro> livro = Optional.ofNullable(entityManager.find(Livro.class, livroId));
-		Optional<LivroDetalheDTO> livroDetalheDto = livro.map( l -> new LivroDetalheDTO(l));
-		return ResponseEntity.of(livroDetalheDto);
+	public ResponseEntity<DetalheLivroResponse> getMethodName(@PathVariable("id") Long livroId) {
+		Optional<Livro> possivelLivro = Optional.ofNullable(entityManager.find(Livro.class, livroId));
+		Optional<DetalheLivroResponse> possivelDetalheLivroResponse = possivelLivro.map( livro -> new DetalheLivroResponse(livro));
+		return ResponseEntity.of(possivelDetalheLivroResponse);
 	}
-
-
-	
-
 }

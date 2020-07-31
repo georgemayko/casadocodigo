@@ -2,7 +2,7 @@ package br.com.gm.deveficiente.casadocodigo.novolivro;
 
 import java.math.BigDecimal;
 
-public class LivroDetalheDTO {
+public class DetalheLivroResponse {
 
 	private String titulo;
 	private String resumo;
@@ -12,19 +12,7 @@ public class LivroDetalheDTO {
 	private String isbn;
 	private int numeroPaginas;
 	
-	public LivroDetalheDTO(String titulo, String resumo, BigDecimal preco, String sumario, String nomeAutor,
-			String isbn, int numeroPaginas) {
-		super();
-		this.titulo = titulo;
-		this.resumo = resumo;
-		this.preco = preco;
-		this.sumario = sumario;
-		this.nomeAutor = nomeAutor;
-		this.isbn = isbn;
-		this.numeroPaginas = numeroPaginas;
-	}
-	
-	public LivroDetalheDTO(Livro livro) {
+	public DetalheLivroResponse(Livro livro) {
 		this.titulo = livro.getTitulo();
 		this.resumo = livro.getResumo();
 		this.preco = livro.getPreco();

@@ -21,7 +21,7 @@ import br.com.gm.deveficiente.casadocodigo.novoautor.Autor;
 import br.com.gm.deveficiente.casadocodigo.validator.ExistId;
 import br.com.gm.deveficiente.casadocodigo.validator.UniqueValue;
 
-public class LivroRequest {
+public class NovoLivroRequest {
 
 	@NotBlank
 	@UniqueValue(domainClass = Livro.class, fieldName = "titulo")
@@ -51,7 +51,7 @@ public class LivroRequest {
 	private Long idCategoria;
 	
 	@JsonCreator//(mode = Mode.PROPERTIES)
-	public LivroRequest(@NotBlank String titulo, @NotBlank @Size(max = 250) String resumo, String sumario,
+	public NovoLivroRequest(@NotBlank String titulo, @NotBlank @Size(max = 250) String resumo, String sumario,
 			@NotNull @Min(20) BigDecimal preco, @NotNull @Min(100) Integer paginas, @NotBlank String isbn,
 			@NotNull @Future LocalDate dataPublicacao, @NotNull Long idAutor, @NotNull Long idCategoria) {
 		super();

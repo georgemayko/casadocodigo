@@ -18,14 +18,14 @@ public class CategoriaValidator implements Validator{
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return LivroRequest.class.isAssignableFrom(clazz);
+		return NovoLivroRequest.class.isAssignableFrom(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
 		if(errors.hasErrors())
 			return;
-		LivroRequest request = (LivroRequest) target;
+		NovoLivroRequest request = (NovoLivroRequest) target;
 		Long id = request.getIdCategoria();
 		Optional<Categoria> possivelCategoria = repository.findById(id);
 		if(!possivelCategoria.isPresent())

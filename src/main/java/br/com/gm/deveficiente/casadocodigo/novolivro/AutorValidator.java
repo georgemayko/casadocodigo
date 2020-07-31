@@ -18,14 +18,14 @@ public class AutorValidator implements Validator{
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return LivroRequest.class.isAssignableFrom(clazz);
+		return NovoLivroRequest.class.isAssignableFrom(clazz);
 	}
 
 	@Override
 	public void validate(Object target, Errors errors) {
 		if(errors.hasErrors())
 			return;
-		LivroRequest request = (LivroRequest) target;
+		NovoLivroRequest request = (NovoLivroRequest) target;
 		Long id = request.getIdAutor();
 		Optional<Autor> possivelAutor = repository.findById(id);
 		if(!possivelAutor.isPresent())

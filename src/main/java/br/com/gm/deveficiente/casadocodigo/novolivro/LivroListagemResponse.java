@@ -1,14 +1,14 @@
 package br.com.gm.deveficiente.casadocodigo.novolivro;
 
-public class LivroDTO {
+public class LivroListagemResponse {
 
 	private Long id;
 	private String titulo;
 	
-	public LivroDTO(Long id, String titulo) {
+	public LivroListagemResponse(Livro livro) {
 		super();
-		this.id = id;
-		this.titulo = titulo;
+		this.id = livro.getId();
+		this.titulo = livro.getTitulo();
 	}
 
 	public Long getId() {
