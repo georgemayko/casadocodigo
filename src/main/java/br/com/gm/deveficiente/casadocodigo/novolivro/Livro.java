@@ -63,6 +63,30 @@ public class Livro {
 		return titulo;
 	}
 	
+	public String getResumo() {
+		return resumo;
+	}
+	
+	public BigDecimal getPreco() {
+		return preco;
+	}
+	
+	public String getSumario() {
+		return sumario;
+	}
+	
+	public Integer getPaginas() {
+		return paginas;
+	}
+	
+	public Autor getAutor() {
+		return autor;
+	}
+	
+	public String getIsbn() {
+		return isbn;
+	}
+	
 	@Override
 	public String toString() {
 		return "Livro [id=" + id + ", titulo=" + titulo + ", resumo=" + resumo + ", sumario=" + sumario + ", preco="
