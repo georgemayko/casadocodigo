@@ -21,6 +21,8 @@ public class ExisteIdValidator implements ConstraintValidator<ExistId, Object>{
 	
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
+		if(value == null)
+			return false;
 		Object resultado = entityManager.find(domainClass, value);
 		return resultado != null;
 	}
