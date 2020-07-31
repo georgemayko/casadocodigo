@@ -13,12 +13,8 @@ import javax.validation.constraints.Size;
 import org.springframework.util.Assert;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonCreator.Mode;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 
 import br.com.gm.deveficiente.casadocodigo.novacategoria.Categoria;
 import br.com.gm.deveficiente.casadocodigo.novoautor.Autor;
@@ -69,10 +65,6 @@ public class LivroRequest {
 		this.idAutor = idAutor;
 		this.idCategoria = idCategoria;
 	}
-	
-//	public void setDataPublicacao(LocalDate dataPublicacao) {
-//		this.dataPublicacao = dataPublicacao;
-//	}
 	
 	public Long getIdAutor() {
 		return idAutor;

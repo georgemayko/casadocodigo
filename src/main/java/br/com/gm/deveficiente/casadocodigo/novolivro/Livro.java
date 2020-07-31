@@ -2,7 +2,6 @@ package br.com.gm.deveficiente.casadocodigo.novolivro;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -56,6 +55,14 @@ public class Livro {
 				this.categoria = categoria;
 	}
 
+	public Long getId() {
+		return id;
+	}
+	
+	public String getTitulo() {
+		return titulo;
+	}
+	
 	@Override
 	public String toString() {
 		return "Livro [id=" + id + ", titulo=" + titulo + ", resumo=" + resumo + ", sumario=" + sumario + ", preco="
