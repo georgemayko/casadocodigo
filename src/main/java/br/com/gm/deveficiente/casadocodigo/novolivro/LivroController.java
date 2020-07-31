@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController 
-//4
+//5
 public class LivroController {
 
 	@PersistenceContext
@@ -25,11 +25,11 @@ public class LivroController {
 
 	@Transactional
 	@PostMapping(value = "livros")
-	//2
-	public String cria(@RequestBody @Valid NovoLivroRequest request) {
+	//3
+	public LivroCriadoResponse cria(@RequestBody @Valid NovoLivroRequest request) {
 		Livro novoLivro = request.toModel(entityManager);
 		entityManager.persist(novoLivro);
-		return novoLivro.toString();
+		return new LivroCriadoResponse(novoLivro);
 	}
 	
 	
@@ -44,9 +44,10 @@ public class LivroController {
 	
 	@GetMapping(value = "livros/{id}")
 	//1
-	public ResponseEntity<DetalheLivroResponse> getMethodName(@PathVariable("id") Long livroId) {
+	public ResponseEntity<DetalheLivroResponse> detalha(@PathVariable("id") Long livroId) {
 		Optional<Livro> possivelLivro = Optional.ofNullable(entityManager.find(Livro.class, livroId));
 		Optional<DetalheLivroResponse> possivelDetalheLivroResponse = possivelLivro.map( livro -> new DetalheLivroResponse(livro));
 		return ResponseEntity.of(possivelDetalheLivroResponse);
 	}
+	
 }
