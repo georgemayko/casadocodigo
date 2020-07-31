@@ -87,6 +87,10 @@ public class Livro {
 		return isbn;
 	}
 	
+	public LocalDate getDataPublicacao() {
+		return dataPublicacao;
+	}
+	
 	@Override
 	public String toString() {
 		return "Livro [id=" + id + ", titulo=" + titulo + ", resumo=" + resumo + ", sumario=" + sumario + ", preco="
