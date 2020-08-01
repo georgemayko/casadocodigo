@@ -27,14 +27,15 @@ public class Estado {
 		this.nome = nome;
 		this.pais = pais;
 	}
+	
+	public Pais getPais() {
+		return pais;
+	}
 
 	@Override
 	public String toString() {
 		return "Estado [id=" + id + ", nome=" + nome + ", pais=" + pais + "]";
 	}
 	
-	public Pais getPais() {
-		return pais;
-	}
 	
 }

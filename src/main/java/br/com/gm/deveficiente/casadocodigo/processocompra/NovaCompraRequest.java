@@ -9,8 +9,9 @@ import org.springframework.util.Assert;
 
 import br.com.gm.deveficiente.casadocodigo.estado.Estado;
 import br.com.gm.deveficiente.casadocodigo.pais.Pais;
+import br.com.gm.deveficiente.casadocodigo.validator.CPForCNPJ;
 import br.com.gm.deveficiente.casadocodigo.validator.ExistId;
-
+//5 ou 7 se contar as annotations
 public class NovaCompraRequest {
 
 	@NotBlank
@@ -21,7 +22,7 @@ public class NovaCompraRequest {
 	@NotBlank
 	private String sobrenome;
 	@NotBlank
-	//validar se CPF ou CNPJ
+	@CPForCNPJ //1
 	private String documento;
 	@NotBlank
 	private String endereco;
@@ -30,7 +31,7 @@ public class NovaCompraRequest {
 	@NotBlank
 	private String cidade;
 	@NotNull
-	@ExistId(domainClass = Pais.class)
+	@ExistId(domainClass = Pais.class) //1
 	private Long paisId;
 	@ExistId(domainClass = Estado.class, isRequired = false)
 	private Long estadoId;
@@ -57,8 +58,16 @@ public class NovaCompraRequest {
 		this.telefone = telefone;
 		this.cep = cep;
 	}
+	
+	public Long getEstadoId() {
+		return estadoId;
+	}
+	
+	public Long getPaisId() {
+		return paisId;
+	}
 
-
+	//5
 	public Compra toModel(EntityManager entityManager) {
 		Compra compra;
 		if(this.estadoId != null) {
