@@ -23,4 +23,6 @@ public @interface ExistId {
     public Class<? extends Payload>[] payload() default {};
 	
 	Class<?> domainClass();
+	
+	public boolean isRequired() default true;
 }

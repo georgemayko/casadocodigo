@@ -12,15 +12,18 @@ public class ExisteIdValidator implements ConstraintValidator<ExistId, Object>{
 	
 	//private String field;
 	private Class<?> domainClass;
+	private boolean isRequired;
 
 	@Override
 	public void initialize(ExistId constraintAnnotation) {
 		domainClass = constraintAnnotation.domainClass();
-		//field = constraintAnnotation.field();
+		this.isRequired = constraintAnnotation.isRequired();
 	}
 	
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {
+		if(!this.isRequired && value == null)
+			return true;
 		if(value == null)
 			return false;
 		Object resultado = entityManager.find(domainClass, value);
