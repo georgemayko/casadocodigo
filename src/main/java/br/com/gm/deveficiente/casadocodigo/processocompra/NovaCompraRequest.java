@@ -1,6 +1,9 @@
 package br.com.gm.deveficiente.casadocodigo.processocompra;
 
+import java.util.function.Function;
+
 import javax.persistence.EntityManager;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -39,12 +42,16 @@ public class NovaCompraRequest {
 	private String telefone;
 	@NotBlank
 	private String cep;
-	
+	@Valid
+	@NotNull
+	private NovoPedidoRequest pedido;
 	
 	public NovaCompraRequest(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
 			@NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
 			@NotBlank String cidade, @NotNull Long paisId, Long estadoId, @NotBlank String telefone,
-			@NotBlank String cep) {
+			@NotBlank String cep,
+			@Valid @NotNull NovoPedidoRequest pedido
+			) {
 		super();
 		this.email = email;
 		this.nome = nome;
@@ -57,6 +64,7 @@ public class NovaCompraRequest {
 		this.estadoId = estadoId;
 		this.telefone = telefone;
 		this.cep = cep;
+		this.pedido = pedido;
 	}
 	
 	public Long getEstadoId() {
@@ -66,21 +74,28 @@ public class NovaCompraRequest {
 	public Long getPaisId() {
 		return paisId;
 	}
+	
+	public NovoPedidoRequest getPedido() {
+		return pedido;
+	}
 
 	//5
 	public Compra toModel(EntityManager entityManager) {
-		Compra compra;
+		
+		Pais pais = entityManager.find(Pais.class, this.paisId);
+		Assert.state(pais != null, "Pais não encontrado para o id: " + this.paisId);
+		
+		Function<Compra, Pedido> funcaoCriadoraPedido = this.pedido.toModel(entityManager);
+		
+		Compra compra  = new Compra(this.nome, this.sobrenome, this.email, this.documento, this.endereco,
+						this.complemento, this.cidade, pais, telefone, cep, funcaoCriadoraPedido);
+		
 		if(this.estadoId != null) {
 			Estado estado = entityManager.find(Estado.class, this.estadoId);
 			Assert.state(estado != null ,"Estado não encontrado para o id: " + this.estadoId);
-			compra = new Compra(this.nome, this.sobrenome, this.email, this.documento, this.endereco,
-							this.complemento, this.cidade, estado, telefone, cep);
-		} else {
-			Pais pais = entityManager.find(Pais.class, this.paisId);
-			Assert.state(pais != null, "Pais não encontrado para o id: " + this.paisId);
+			compra.setEstado(estado);
+		}else {			
 			Assert.isTrue(!pais.possuiEstados(), "O pais tem estados, mas não foi indicado o estado na requisicao");
-			compra  = new Compra(this.nome, this.sobrenome, this.email, this.documento, this.endereco,
-							this.complemento, this.cidade, pais, telefone, cep);
 		}
 		return compra;
 	}
