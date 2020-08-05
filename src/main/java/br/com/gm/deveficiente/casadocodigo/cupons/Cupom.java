@@ -21,6 +21,9 @@ public class Cupom {
 	private @NotNull String codigo;
 	private @NotNull @Max(100) @Positive BigDecimal percentual;
 	private @Future LocalDate dataValidade;
+	
+	@Deprecated
+	public Cupom() {	}
 
 	public Cupom(@NotNull String codigo, @NotNull @Max(100) @Positive BigDecimal percentual,
 			@Future LocalDate dataValidade) {
