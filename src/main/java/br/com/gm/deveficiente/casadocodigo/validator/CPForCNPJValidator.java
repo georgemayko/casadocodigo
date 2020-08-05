@@ -10,17 +10,19 @@ import javax.validation.Validator;
 
 import org.hibernate.validator.constraints.br.CNPJ;
 import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.beans.factory.annotation.Autowired;
 
 //3
 public class CPForCNPJValidator implements ConstraintValidator<CPForCNPJ, Object>{
 
+	@Autowired
 	private Validator validator;
 
-	@Override
-	//1
-	public void initialize(CPForCNPJ constraintAnnotation) {
-		validator = Validation.buildDefaultValidatorFactory().getValidator();
-	}
+//	@Override
+//	//1
+//	public void initialize(CPForCNPJ constraintAnnotation) {
+//		validator = Validation.buildDefaultValidatorFactory().getValidator();
+//	}
 	
 	@Override
 	public boolean isValid(Object value, ConstraintValidatorContext context) {

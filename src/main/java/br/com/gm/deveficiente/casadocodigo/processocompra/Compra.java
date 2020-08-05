@@ -41,7 +41,7 @@ public class Compra {
 
 	public Compra(@NotBlank String nome, @NotBlank String sobrenome, @NotBlank @Email String email,
 			@NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
-			@NotBlank String cidade, @NotNull @ Valid Estado estado, @NotBlank String telefone,
+			@NotBlank String cidade, @NotNull @Valid Estado estado, @NotBlank String telefone,
 			@NotBlank String cep) {
 		this(nome, sobrenome, email, documento, endereco, complemento,
 				cidade, estado.getPais(), telefone, cep);
