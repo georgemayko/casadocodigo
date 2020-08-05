@@ -4,6 +4,8 @@ import java.util.function.Function;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,9 +40,10 @@ public class Compra {
 	private Estado estado;
 	private @NotBlank String telefone;
 	private @NotBlank String cep;
-
 	@OneToOne(mappedBy = "compra", cascade = CascadeType.PERSIST)
 	private @NotNull Pedido pedido;
+	@Enumerated(EnumType.STRING)
+	private StatusCompra status;
 
 	public Compra(@NotBlank String nome, @NotBlank String sobrenome, @NotBlank @Email String email,
 			@NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
@@ -57,6 +60,7 @@ public class Compra {
 				this.telefone = telefone;
 				this.cep = cep;
 				this.pedido = funcaoCriadoraPedido.apply(this);
+				this.status = StatusCompra.INICIADA;
 	}
 
 	public void setEstado(Estado estado) {
