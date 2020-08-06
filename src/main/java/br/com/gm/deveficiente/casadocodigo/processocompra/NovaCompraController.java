@@ -27,11 +27,12 @@ public class NovaCompraController {
 	private PaisEstadoCompraValidator paisEstadoCompraValidator;
 	@Autowired
 	private TotalPedidoValidator  totalPedidoValitor;
+	@Autowired
+	private CupomValidoValidator cupomValidoValitator;
 	
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
-		binder.addValidators(paisEstadoCompraValidator);
-		binder.addValidators(totalPedidoValitor);
+		binder.addValidators(paisEstadoCompraValidator, totalPedidoValitor, cupomValidoValitator);
 	}
 
 	@PostMapping(value = "compra")

@@ -10,7 +10,6 @@ public class ExistIdValidator implements ConstraintValidator<ExistId, Object>{
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	//private String field;
 	private Class<?> domainClass;
 	private boolean isRequired;
 

@@ -26,6 +26,9 @@ public class CupomAplicado {
 	@NotNull
 	private LocalDate dataValidadeMomento;
 
+	@Deprecated
+	public CupomAplicado() {	}
+	
 	public CupomAplicado(@Valid Cupom cupom) {
 		this.cupom = cupom;
 		this.percentualDescontoMomento = cupom.getPercentual();

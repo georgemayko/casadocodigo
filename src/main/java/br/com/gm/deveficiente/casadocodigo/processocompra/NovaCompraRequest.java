@@ -16,6 +16,7 @@ import br.com.gm.deveficiente.casadocodigo.estado.Estado;
 import br.com.gm.deveficiente.casadocodigo.pais.Pais;
 import br.com.gm.deveficiente.casadocodigo.validator.CPForCNPJ;
 import br.com.gm.deveficiente.casadocodigo.validator.ExistId;
+import br.com.gm.deveficiente.casadocodigo.validator.ExistsByField;
 //5 ou 7 se contar as annotations
 public class NovaCompraRequest {
 
@@ -47,6 +48,7 @@ public class NovaCompraRequest {
 	@Valid
 	@NotNull
 	private NovoPedidoRequest pedido;
+	@ExistsByField(domainClass = Cupom.class, field = "codigo")
 	private String codigoCupom;
 	
 	public NovaCompraRequest(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
@@ -87,6 +89,10 @@ public class NovaCompraRequest {
 	
 	public NovoPedidoRequest getPedido() {
 		return pedido;
+	}
+	
+	public Optional<String> getCodigoCupom() {
+		return Optional.ofNullable(this.codigoCupom);
 	}
 
 	//5
