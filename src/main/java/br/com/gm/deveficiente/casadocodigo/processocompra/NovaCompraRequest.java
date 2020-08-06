@@ -1,5 +1,6 @@
 package br.com.gm.deveficiente.casadocodigo.processocompra;
 
+import java.util.Optional;
 import java.util.function.Function;
 
 import javax.persistence.EntityManager;
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.util.Assert;
 
+import br.com.gm.deveficiente.casadocodigo.cupons.Cupom;
 import br.com.gm.deveficiente.casadocodigo.estado.Estado;
 import br.com.gm.deveficiente.casadocodigo.pais.Pais;
 import br.com.gm.deveficiente.casadocodigo.validator.CPForCNPJ;
@@ -45,10 +47,11 @@ public class NovaCompraRequest {
 	@Valid
 	@NotNull
 	private NovoPedidoRequest pedido;
+	private String codigoCupom;
 	
 	public NovaCompraRequest(@NotBlank @Email String email, @NotBlank String nome, @NotBlank String sobrenome,
 			@NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
-			@NotBlank String cidade, @NotNull Long paisId, Long estadoId, @NotBlank String telefone,
+			@NotBlank String cidade, @NotNull Long paisId, @NotBlank String telefone,
 			@NotBlank String cep,
 			@Valid @NotNull NovoPedidoRequest pedido
 			) {
@@ -61,10 +64,17 @@ public class NovaCompraRequest {
 		this.complemento = complemento;
 		this.cidade = cidade;
 		this.paisId = paisId;
-		this.estadoId = estadoId;
 		this.telefone = telefone;
 		this.cep = cep;
 		this.pedido = pedido;
+	}
+	
+	public void setEstadoId(Long estadoId) {
+		this.estadoId = estadoId;
+	}
+	
+	public void setCodigoCupom(String codigoCupom) {
+		this.codigoCupom = codigoCupom;
 	}
 	
 	public Long getEstadoId() {
@@ -80,7 +90,7 @@ public class NovaCompraRequest {
 	}
 
 	//5
-	public Compra toModel(EntityManager entityManager) {
+	public Compra toModel(EntityManager entityManager, CupomRepository cupomRepository) {
 		
 		Pais pais = entityManager.find(Pais.class, this.paisId);
 		Assert.state(pais != null, "Pais não encontrado para o id: " + this.paisId);
@@ -97,6 +107,11 @@ public class NovaCompraRequest {
 		}else {			
 			Assert.isTrue(!pais.possuiEstados(), "O pais tem estados, mas não foi indicado o estado na requisicao");
 		}
+		
+		Optional<Cupom> possivelCupom = cupomRepository.findByCodigo(this.codigoCupom);
+		
+		possivelCupom.ifPresent( cupom -> compra.aplicaCupom(cupom));
+		
 		return compra;
 	}
 	

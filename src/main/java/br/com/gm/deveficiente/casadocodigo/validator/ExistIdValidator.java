@@ -5,7 +5,7 @@ import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class ExisteIdValidator implements ConstraintValidator<ExistId, Object>{
+public class ExistIdValidator implements ConstraintValidator<ExistId, Object>{
 
 	@PersistenceContext
 	private EntityManager entityManager;

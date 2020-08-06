@@ -3,6 +3,7 @@ package br.com.gm.deveficiente.casadocodigo.processocompra;
 import java.util.function.Function;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -18,6 +19,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.util.Assert;
 
+import br.com.gm.deveficiente.casadocodigo.cupons.Cupom;
 import br.com.gm.deveficiente.casadocodigo.estado.Estado;
 import br.com.gm.deveficiente.casadocodigo.pais.Pais;
 
@@ -44,6 +46,8 @@ public class Compra {
 	private @NotNull Pedido pedido;
 	@Enumerated(EnumType.STRING)
 	private StatusCompra status;
+	@Embedded
+	private CupomAplicado cupomAplicado;
 
 	public Compra(@NotBlank String nome, @NotBlank String sobrenome, @NotBlank @Email String email,
 			@NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
@@ -75,6 +79,13 @@ public class Compra {
 				+ documento + ", endereco=" + endereco + ", complemento=" + complemento + ", cidade=" + cidade
 				+ ", pais=" + pais + ", estado=" + estado + ", telefone=" + telefone + ", cep=" + cep + ", pedido="
 				+ pedido + "]";
+	}
+
+	public void aplicaCupom( @Valid Cupom cupom) {
+		Assert.notNull(cupom, "Para aplica um cupom, este não pode ser nulo");
+		Assert.isNull(this.cupomAplicado, "Só é possível aplicar um cupom por compra");
+		Assert.isTrue(cupom.valido(), "O cupom já não é mais válido de acordo com a data de validade");
+		this.cupomAplicado = new CupomAplicado(cupom);
 	}
 	
 	

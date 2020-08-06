@@ -21,6 +21,9 @@ public class NovaCompraController {
 	EntityManager entityManager;
 	
 	@Autowired
+	CupomRepository cupomRepository;
+	
+	@Autowired
 	private PaisEstadoCompraValidator paisEstadoCompraValidator;
 	@Autowired
 	private TotalPedidoValidator  totalPedidoValitor;
@@ -35,7 +38,7 @@ public class NovaCompraController {
 	@Transactional
 	@ResponseStatus(code = HttpStatus.CREATED)
 	public String cria(@RequestBody @Valid NovaCompraRequest request) {
-		Compra compra = request.toModel(entityManager);
+		Compra compra = request.toModel(entityManager, cupomRepository);
 		entityManager.persist(compra);
 		return compra.toString();
 	}

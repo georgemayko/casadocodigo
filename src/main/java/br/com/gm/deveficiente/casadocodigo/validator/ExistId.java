@@ -12,7 +12,7 @@ import javax.validation.Payload;
 @Documented
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ExisteIdValidator.class)
+@Constraint(validatedBy = ExistIdValidator.class)
 public @interface ExistId {
 	
 	//error message  

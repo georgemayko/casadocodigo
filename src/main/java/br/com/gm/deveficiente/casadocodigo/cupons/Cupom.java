@@ -32,9 +32,21 @@ public class Cupom {
 				this.dataValidade = dataValidade;
 	}
 
+	public BigDecimal getPercentual() {
+		return percentual;
+	}
+	
+	public LocalDate getDataValidade() {
+		return dataValidade;
+	}
+	
 	@Override
 	public String toString() {
 		return "Cupom [id=" + id + ", codigo=" + codigo + ", percentual=" + percentual + ", dataValidade="
 				+ dataValidade + "]";
+	}
+
+	public boolean valido() {
+		return !LocalDate.now().isAfter(this.getDataValidade());
 	}
 }
