@@ -27,6 +27,9 @@ public class Pedido {
 	private @Size(min = 1) Set<ItemPedido> itens;
 	@OneToOne
 	private @NotNull Compra compra;
+	
+	@Deprecated
+	public Pedido() {	}
 
 	public Pedido(@NotNull @Valid Compra compra,@NotNull @Positive BigDecimal total,
 			@Size(min = 1) Set<ItemPedido> itens) {
@@ -35,6 +38,14 @@ public class Pedido {
 		this.itens = itens;
 		this.compra = compra;
 	}
+	
+	public BigDecimal getTotal() {
+		return total;
+	}
+	
+	public Set<ItemPedido> getItens() {
+		return itens;
+	};
 
 	public boolean totalIgual(@NotNull @Positive BigDecimal total) {
 		BigDecimal totalPedido = this.itens.stream().map(ItemPedido::total).reduce(BigDecimal.ZERO, (atual, proximo) -> atual.add(proximo));

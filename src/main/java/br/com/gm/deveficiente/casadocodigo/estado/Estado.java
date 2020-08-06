@@ -31,6 +31,10 @@ public class Estado {
 	public Pais getPais() {
 		return pais;
 	}
+	
+	public String getNome() {
+		return nome;
+	}
 
 	@Override
 	public String toString() {

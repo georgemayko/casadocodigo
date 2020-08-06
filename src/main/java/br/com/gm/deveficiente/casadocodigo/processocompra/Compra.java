@@ -1,5 +1,8 @@
 package br.com.gm.deveficiente.casadocodigo.processocompra;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Optional;
 import java.util.function.Function;
 
 import javax.persistence.CascadeType;
@@ -48,6 +51,9 @@ public class Compra {
 	private StatusCompra status;
 	@Embedded
 	private CupomAplicado cupomAplicado;
+	
+	@Deprecated
+	public Compra() {	}
 
 	public Compra(@NotBlank String nome, @NotBlank String sobrenome, @NotBlank @Email String email,
 			@NotBlank String documento, @NotBlank String endereco, @NotBlank String complemento,
@@ -66,6 +72,40 @@ public class Compra {
 				this.pedido = funcaoCriadoraPedido.apply(this);
 				this.status = StatusCompra.INICIADA;
 	}
+	
+	
+	public String getNome() {
+		return nome;
+	}
+	
+	public String getSobrenome() {
+		return sobrenome;
+	}
+	
+	public String getEndereco() {
+		return endereco;
+	}
+	
+	public String getCep() {
+		return cep;
+	}
+	
+	public String getComplemento() {
+		return complemento;
+	}
+	
+	public String getCidade() {
+		return cidade;
+	}
+	
+	
+	public Pais getPais() {
+		return pais;
+	}
+	
+	public Optional<Estado> getEstado() {
+		return Optional.ofNullable(estado);
+	}
 
 	public void setEstado(Estado estado) {
 		Assert.notNull(this.pais, "Não deve ser possível associar um estado a Compra que não possui país");
@@ -73,13 +113,6 @@ public class Compra {
 		this.estado = estado;
 	}
 
-	@Override
-	public String toString() {
-		return "Compra [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", email=" + email + ", documento="
-				+ documento + ", endereco=" + endereco + ", complemento=" + complemento + ", cidade=" + cidade
-				+ ", pais=" + pais + ", estado=" + estado + ", telefone=" + telefone + ", cep=" + cep + ", pedido="
-				+ pedido + "]";
-	}
 
 	public void aplicaCupom( @Valid Cupom cupom) {
 		Assert.notNull(cupom, "Para aplica um cupom, este não pode ser nulo");
@@ -88,6 +121,27 @@ public class Compra {
 		this.cupomAplicado = new CupomAplicado(cupom);
 	}
 	
+	public Optional<CupomAplicado> getCupomAplicado() {
+		return Optional.ofNullable(cupomAplicado);
+	}
 	
+	public Pedido getPedido() {
+		return pedido;
+	}
 	
+	public BigDecimal getValorDesconto() {
+		if(this.cupomAplicado == null)
+			return BigDecimal.ZERO;
+		return this.pedido.getTotal()
+				.multiply(this.cupomAplicado.getPercentualDescontoMomento())
+				.divide(new BigDecimal(100), 2, RoundingMode.HALF_UP);
+	}
+	
+	@Override
+	public String toString() {
+		return "Compra [id=" + id + ", nome=" + nome + ", sobrenome=" + sobrenome + ", email=" + email + ", documento="
+				+ documento + ", endereco=" + endereco + ", complemento=" + complemento + ", cidade=" + cidade
+				+ ", pais=" + pais + ", estado=" + estado + ", telefone=" + telefone + ", cep=" + cep + ", pedido="
+				+ pedido + "]";
+	}
 }

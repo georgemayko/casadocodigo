@@ -35,4 +35,8 @@ public class CupomAplicado {
 		this.dataValidadeMomento = cupom.getDataValidade();
 	}
 	
+	public BigDecimal getPercentualDescontoMomento() {
+		return percentualDescontoMomento;
+	}
+	
 }
